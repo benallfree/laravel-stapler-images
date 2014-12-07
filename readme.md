@@ -91,16 +91,15 @@ Then, create a route like this and add whatever security you need:
 
 The core `codesleeve/stapler` package has a couple bugs that may be important to you. We have included patch files to fix the bugs and will keep these up to date with the required versions of `stapler`.
 
-For both of the below bugfixes, we recommend adding them to your `composer.json` to automate the updates:
+After you run a `composer update`, you'll need to re-apply these patches. Here is a shell script to help out. I like this better than composer's hooks because sometimes `artisan` won't run if ServiceProvider dependencies are missing.
 
-    "pre-update-cmd": [
-      "rm -rf vendor/codesleeve/stapler"
-    ],
-    "post-update-cmd": [
-      "rm -rf vendor/codesleeve/stapler/.git",
-      "git apply vendor/benallfree/laravel-stapler-images/codesleeve-stapler-rename_bugfix.patch"    
-      "git apply vendor/benallfree/laravel-stapler-images/codesleeve-stapler-curl-open-basedir-fix.patch"    
-    ],
+    #!/bin/bash
+    rm -rf vendor/codesleeve/stapler
+    composer $1
+    git apply vendor/benallfree/laravel-stapler-images/codesleeve-stapler-rename_bugfix.patch
+    git apply vendor/benallfree/laravel-stapler-images/codesleeve-stapler-curl-open-basedir-fix.patch
+    php artisan clear-compiled
+    php artisan optimize
 
 ### curl/open_basedir bug
 
