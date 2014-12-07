@@ -1,10 +1,17 @@
 # Laravel Stapler Images
 
-This Laravel 4 package sovles a difficult problem of managing image attachments for models. This picks up where `codesleeve/laravel-stapler` leaves off, adding database normalization and more complete resizing and maintenance features.
+This Laravel 4 package builds upon codesleeve/laravel-stapler and takes a different approach to attachment storage by storing attachments in a single table.
+
+There are several benefits to storing your attachments in a single table:
+
+* Easier mainteannce - no additional migrations needed when new attachments are added
+* Utilities and Laravel commands to handle attachments do not need to know specific column mames
+* Normalized data is more organized and searchable
 
 ## Setup
 
 At minium
+
     php artisan migrate:publish benallfree/laravel-stapler-images
     php artisan migrate
 
