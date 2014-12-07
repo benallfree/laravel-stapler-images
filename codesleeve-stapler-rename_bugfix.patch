@@ -1,0 +1,13 @@
+diff --git a/vendor/codesleeve/stapler/src/Storage/Filesystem.php b/vendor/codesleeve/stapler/src/Storage/Filesystem.php
+index 062022c..c06e4bd 100644
+--- a/vendor/codesleeve/stapler/src/Storage/Filesystem.php
++++ b/vendor/codesleeve/stapler/src/Storage/Filesystem.php
+@@ -112,7 +112,7 @@ class Filesystem implements StorageableInterface
+ 	 */
+ 	protected function moveFile($file, $filePath)
+ 	{
+-		if (!rename($file, $filePath))
++		if (!@rename($file, $filePath))
+         {
+             $error = error_get_last();
+             throw new Exceptions\FileException(sprintf('Could not move the file "%s" to "%s" (%s)', $file, $filePath, strip_tags($error['message'])));
