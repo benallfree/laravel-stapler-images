@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateImages extends Migration {
+class LaravelStaplerImagesCreateImages extends Migration {
 
 	/**
 	 * Run the migrations.
