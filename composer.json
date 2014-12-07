@@ -1,6 +1,7 @@
 {
     "name": "benallfree/laravel-stapler-images",
     "description": "Extend laravel-stapler with an Image model.",
+    "keywords": ["laravel", "stapler", "image", "attachment"],
     "authors": [
         {
             "name": "Ben Allfree",
