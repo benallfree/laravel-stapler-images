@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Carbon\Carbon;
+use BenAllfree\LaravelStaplerImages\Image;
 
 class ImageReprocess extends Command {
 

@@ -37,7 +37,12 @@ class Image  extends \Eloquent implements StaplerableInterface
   
   public static function styles()
   {
-    return \Config::get('laravel-stapler-images::config.sizes');
+    $styles = \Config::get('laravel-stapler-images::config.sizes');
+    if(!$styles || count($styles)==0)
+    {
+      throw new \Exception("No sizes defined for Image class. Are you sure you registered the service provider?");
+    }
+    return $styles;
   }
 }
 
