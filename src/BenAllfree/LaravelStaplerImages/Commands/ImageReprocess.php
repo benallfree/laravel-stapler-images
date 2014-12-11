@@ -44,7 +44,7 @@ class ImageReprocess extends Command {
     $images = Image::all();
     foreach($images as $i)
     {
-      if(!$i->should_reprocess()) continue;
+      if($this->option('force')==InputOption::VALUE_NONE && !$i->should_reprocess()) continue;
       $i->save();
       echo("Processing {$i->image->url()}\n");
       $i->image->reprocess();
@@ -72,7 +72,7 @@ class ImageReprocess extends Command {
   protected function getOptions()
   {
     return array(
-#      array('example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null),
+      array('force', null, InputOption::VALUE_OPTIONAL, 'Force reprocessing.', null),
     );
   }
 
