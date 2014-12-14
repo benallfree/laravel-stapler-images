@@ -10,6 +10,8 @@ class Image  extends \Eloquent implements StaplerableInterface
 
   public static function from_url($url)
   {
+    $i = Image::whereUrl($url)->first();
+    if($i) return $i;
     $i = new Image();
     $i->url = $url;
     $i->image = $url;
