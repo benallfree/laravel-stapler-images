@@ -33,7 +33,11 @@ class LaravelStaplerImagesServiceProvider extends ServiceProvider {
 			return new Commands\ImageReprocess;
 		});
     $this->commands('image.reprocess');
-    
+		$this->app->bind('image.add', function($app)
+		{
+			return new Commands\ImageAdd;
+		});
+    $this->commands('image.add');
 	}
 
 	/**
