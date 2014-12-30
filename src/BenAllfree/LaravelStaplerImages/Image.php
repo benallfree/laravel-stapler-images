@@ -10,12 +10,12 @@ class Image  extends \Eloquent implements StaplerableInterface
 
   public static function from_url($url, $force_fetch=false)
   {
-    $i = Image::whereUrl($url)->first();
-    if($i && !$force_fetch) return $i;
-    if(!$i)
+    if(!$force_fetch)
     {
-      $i = new Image();
+      $i = Image::whereUrl($url)->first();
+      if($i) return $i;
     }
+    $i = new Image();
     $i->url = $url;
     $i->image = $url;
     $i->save();
