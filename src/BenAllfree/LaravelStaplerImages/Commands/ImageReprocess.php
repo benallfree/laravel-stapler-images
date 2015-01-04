@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Carbon\Carbon;
 use BenAllfree\LaravelStaplerImages\Image;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 class ImageReprocess extends Command {
 
@@ -44,10 +45,16 @@ class ImageReprocess extends Command {
     $images = Image::all();
     foreach($images as $i)
     {
-      if($this->option('force')==InputOption::VALUE_NONE && !$i->should_reprocess()) continue;
-      $i->save();
+      if($this->option('force')==null && !$i->should_reprocess()) continue;
       echo("Processing {$i->image->url()}\n");
-      $i->image->reprocess();
+      try
+      {
+        $i->image->reprocess();
+        $i->save();
+      } catch (FileNotFoundException $e)
+      {
+        echo("\tFile not found.");
+      }
     }
   }
   
