@@ -42,9 +42,7 @@ class ImageAdd extends Command {
   public function fire()
   {
     $file = $this->argument('url');
-    $i = new Image();
-    $i->image = $file;
-    $i->save();
+    $i = Image::from_url($file,true);
     echo("Image ID is {$i->id}\n");
   }
   
