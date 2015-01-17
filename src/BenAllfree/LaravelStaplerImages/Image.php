@@ -30,6 +30,11 @@ class Image  extends \Eloquent implements StaplerableInterface
       parent::__construct($attributes);
   }
   
+  function url($size='thumb')
+  {
+    return $this->image->url($size);
+  }
+  
   public function should_reprocess()
   {
     return $this->sizes_md5 != self::style_md5();
