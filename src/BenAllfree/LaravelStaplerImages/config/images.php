@@ -23,5 +23,6 @@ foreach($sizes as $k=>$v)
 }
 
 return [
+  'table_name'=>'images',
   'sizes'=>$sizes,
 ];

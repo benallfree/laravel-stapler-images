@@ -12,22 +12,27 @@ class Image  extends \Eloquent implements StaplerableInterface
   {
     if(!$force_fetch)
     {
-      $i = Image::whereUrl($url)->first();
+      $i = Image::whereOriginalFileName($url)->first();
       if($i) return $i;
     }
     $i = new Image();
-    $i->url = $url;
+    $i->original_file_name = $url;
     $i->image = $url;
     $i->save();
     return $i;
   }
+
+  function getTable()
+  {
+    return config('laravel-stapler.images.table_name');
+  }
   
   public function __construct(array $attributes = array()) {
-      $this->hasAttachedFile('image', [
-          'styles' => self::styles()
-      ]);
+    $this->hasAttachedFile('image', [
+        'styles' => self::styles()
+    ]);
 
-      parent::__construct($attributes);
+    parent::__construct($attributes);
   }
   
   function url($size='thumb')
@@ -47,7 +52,7 @@ class Image  extends \Eloquent implements StaplerableInterface
   
   public static function styles()
   {
-    $styles = \Config::get('laravel-stapler-images::config.sizes');
+    $styles = config('laravel-stapler.images.sizes');
     if(!$styles || count($styles)==0)
     {
       throw new \Exception("No sizes defined for Image class. Are you sure you registered the service provider?");

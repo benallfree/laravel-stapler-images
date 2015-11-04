@@ -12,10 +12,10 @@ class LaravelStaplerImagesCreateImages extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('images', function(Blueprint $table)
+		Schema::create(config('laravel-stapler-images.table_name'), function(Blueprint $table)
 		{
 			$table->increments('id');
-      $table->string('url');
+      $table->string('original_file_name');
 			$table->string('sizes_md5')->nullable();
       $table->string('image_file_name')->nullable();
       $table->integer('image_file_size')->nullable();
@@ -32,7 +32,7 @@ class LaravelStaplerImagesCreateImages extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('images');
+		Schema::drop(config('laravel-stapler-images.table_name'));
 	}
 
 }

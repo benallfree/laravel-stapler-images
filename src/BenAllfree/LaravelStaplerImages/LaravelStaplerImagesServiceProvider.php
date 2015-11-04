@@ -18,7 +18,12 @@ class LaravelStaplerImagesServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('benallfree/laravel-stapler-images');
+    $this->publishes([
+      __DIR__.'/config/images.php' => config_path('laravel-stapler/images.php'),
+      __DIR__.'/migrations' => base_path('database/migrations'),
+    ]);
+    
+		//$this->package('benallfree/laravel-stapler-images');
 	}
 
 	/**
@@ -28,6 +33,10 @@ class LaravelStaplerImagesServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+    $this->mergeConfigFrom(
+        __DIR__.'/config/images.php', 'laravel-stapler.images'
+    );
+    
 		$this->app->bind('image.reprocess', function($app)
 		{
 			return new Commands\ImageReprocess;
