@@ -126,8 +126,61 @@ Then, create a route like this and add whatever security you need:
 
 ## Integrating with Laravel Administrator
 
-Do you love [Laravel Administrator](https://github.com/FrozenNode/Laravel-Administrator) as much as I do? Sweet.
+Do you love [Laravel Administrator](https://github.com/FrozenNode/Laravel-Administrator) as much as I do? Sweet. Here's how you do it.
 
+In `config/laravel-stapler/images.php`, there is an `admin_path` that should be configured. You might like the default, and if you do, then you need to make sure the directory exists (someone fix that please).
+
+Then, in `config/administrator/<your model>.php`, configure your model file as follows:
+  
+    <?php
+    
+    return array(
+      
+      'title' => 'Users',
+      
+      'single' => 'User',
+      
+      'model' => 'App\User',
+      
+      /**
+       * The display columns
+       */
+      'columns' => array(
+        'id',
+        'avatar' => array(
+          'title' => 'Avatar',
+          'select' => 'avatar_id',
+          'output'=>function($id) {
+            if(!$id) return '';
+            $i = \Image::find($id);
+            return "<img src='{$i->url('admin')}?r={$i->updated_at->timestamp}' width=50/>";
+          },
+        ),    
+      ),
+      
+      /**
+       * The editable fields
+       */
+      'edit_fields' => array(
+        'avatar_laravel_administrator_path'=>[
+          'title'=>'Avatar',
+          'type'=>'image',
+          'location'=>config('laravel-stapler.images.admin_path').'/',
+        ]
+        
+      ),
+      
+    );
+
+Then in your `User` model, add:
+
+    function setAvatarLaravelAdministratorPathAttribute($value)
+    {
+      $i = \Image::from_url(config('laravel-stapler.images.admin_path')."/{$value}");
+      $this->avatar_id = $i->id;
+    }
+
+That's it! Now you have images from Laravel Administrator!
 
 ## Workarounds and bugfixes
 

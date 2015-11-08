@@ -21,7 +21,7 @@ class Image  extends \Eloquent implements StaplerableInterface
     $i->save();
     return $i;
   }
-
+  
   function getTable()
   {
     return config('laravel-stapler.images.table_name');
