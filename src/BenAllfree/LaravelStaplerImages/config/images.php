@@ -23,7 +23,7 @@ foreach($sizes as $k=>$v)
 }
 
 return [
-  'table_name'=>'images',
-  'admin_path'=>storage_path('admin/images'),
+  'table_name'=>'attachments',
+  'admin_path'=>storage_path('admin/att'),
   'sizes'=>$sizes,
 ];

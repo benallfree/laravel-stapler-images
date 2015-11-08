@@ -1,6 +1,6 @@
 # Laravel Stapler Images
 
-This Laravel 5 package builds upon `codesleeve/laravel-stapler` and takes a different approach to attachment storage by storing attachments in a single table.
+This Laravel 5 package builds upon `codesleeve/laravel-stapler` and takes a different approach to attachment storage by storing attachments in a single table. Besides this normalized approach to attachment storage, it also handles images and image sizes.
 
 There are several benefits to storing your attachments in a single table:
 
