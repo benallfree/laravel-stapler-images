@@ -19,9 +19,10 @@ Add the service providers to `config/app.php`
     BenAllfree\LaravelStaplerImages\LaravelStaplerImagesServiceProvider::class
     Codesleeve\LaravelStapler\Providers\L5ServiceProvider::class    
 
-Optionally add an alias for the `\Image` class in `config/app.php`
+Optionally add an alias for the `\Image` and `\Attachment` classes in `config/app.php`
 
     'Image' => BenAllfree\LaravelStaplerImages\Image::class
+    'Attachment' => BenAllfree\LaravelStaplerImages\Attachment::class
 
 Publish the config
 

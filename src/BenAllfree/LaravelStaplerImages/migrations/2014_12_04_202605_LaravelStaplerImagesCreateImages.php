@@ -17,10 +17,10 @@ class LaravelStaplerImagesCreateImages extends Migration {
 			$table->increments('id');
       $table->string('original_file_name');
 			$table->string('sizes_md5')->nullable();
-      $table->string('image_file_name')->nullable();
-      $table->integer('image_file_size')->nullable();
-      $table->string('image_content_type')->nullable();
-      $table->datetime('image_updated_at')->nullable();
+      $table->string('att_file_name')->nullable();
+      $table->integer('att_file_size')->nullable();
+      $table->string('att_content_type')->nullable();
+      $table->datetime('att_updated_at')->nullable();
       $table->timestamps();
 		});
 	}

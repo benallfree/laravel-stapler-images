@@ -17,7 +17,7 @@ class Image  extends \Eloquent implements StaplerableInterface
     }
     $i = new Image();
     $i->original_file_name = $url;
-    $i->image = $url;
+    $i->att = $url;
     $i->save();
     return $i;
   }
@@ -28,7 +28,7 @@ class Image  extends \Eloquent implements StaplerableInterface
   }
   
   public function __construct(array $attributes = array()) {
-    $this->hasAttachedFile('image', [
+    $this->hasAttachedFile('att', [
         'styles' => self::styles()
     ]);
 
