@@ -45,17 +45,19 @@ Super easy. Let's add an avatar to our `User` model.
 First, create a migration. In this case, let's do a simple `belongsTo` relationship.
 
     Schema::table('users', function (Blueprint $table) {
-      $table->integer('avatar_id');
+      $table->integer('avatar_image_id');
     });
+
+We named it `avatar_image_id` because we want the field to be treated as an `BenAllfree\LaravelStaplerImages\Image` object so image processing happens. This gives us extra features like processing various image sizes. If we didn't need that, we could have named it `avatar_file_id` and it would be a `BenAllfree\LaravelStaplerImages\Attachment` instead.
 
 Now, add it to the User table
 
+
+    use BenAllfree\LaravelStaplerImages\AttachmentTrait;
+    
     class User
     {
-      function avatar()
-      {
-        return $this->belongsTo(\Image::class, 'avatar_id');
-      }
+      trait AttachmentTrait;
     }
 
 Great. Now we can rock and roll. Saving will generate and save all the images on the spot.
@@ -79,6 +81,20 @@ The following sizes exist by default:
     'admin' => '100x100#',
     'tiny' => '75x75#',
 
+## Magic Getters and Setters
+
+Given a database field `<name>_file_id`
+
+`<name>_file` - A getter that returns an `Attachment` object for the given underlying ID
+`<name>_file_path()` - A setter mutator that accepts a file path or URL and creates an `Attachment` object from it. If it can't find the file with the path specified, it will look in the `storage_path` config setting, then in `storage_path()`, then in `root_path()`.
+  
+Likewise, a database field `<name>_image_id` will do the same thing for `Image`, except it will add image processing when the objects are created.
+
+`<name>_image` - A getter that returns an `Image` object for the given underlying ID
+`<name>_image_path()` - A setter mutator that accepts a file path or URL and creates an `Attachment` object from it. If it can't find the file with the path specified, it will look in the `storage_path` config setting, then in `storage_path()`, then in `root_path()`.
+  
+`Image` is NOT a subclass of `Attachment`, so these should not be used interchangeably. 
+  
 ## Caching and Performance
 
 By default, `Image::from_url($url)` will check `$url` against the `original_file_name` column in the images table and will only fetch the image the first time it has to. If you want to force it, use `from_url($url, true)`.
@@ -163,7 +179,7 @@ Then, in `config/administrator/<your model>.php`, configure your model file as f
        * The editable fields
        */
       'edit_fields' => array(
-        'avatar_laravel_administrator_path'=>[
+        'avatar_image_laravel_administrator_fname'=>[
           'title'=>'Avatar',
           'type'=>'image',
           'location'=>config('laravel-stapler.images.admin_path').'/',
@@ -172,14 +188,6 @@ Then, in `config/administrator/<your model>.php`, configure your model file as f
       ),
       
     );
-
-Then in your `User` model, add:
-
-    function setAvatarLaravelAdministratorPathAttribute($value)
-    {
-      $i = \Image::from_url(config('laravel-stapler.images.admin_path')."/{$value}");
-      $this->avatar_id = $i->id;
-    }
 
 That's it! Now you have images from Laravel Administrator!
 
