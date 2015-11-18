@@ -38,7 +38,7 @@ trait AttachmentTrait
         }
         if($value != $file_path)
         {
-          throw new Exception("File path {$value} not found.");
+          throw new \Exception("File path {$value} not found.");
         }
       }
       switch($field_type)
