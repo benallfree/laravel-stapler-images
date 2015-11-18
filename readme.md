@@ -16,13 +16,13 @@ Install
 
 Add the service providers to `config/app.php`
 
-    BenAllfree\LaravelStaplerImages\LaravelStaplerImagesServiceProvider::class
-    Codesleeve\LaravelStapler\Providers\L5ServiceProvider::class    
+    BenAllfree\LaravelStaplerImages\LaravelStaplerImagesServiceProvider::class,
+    Codesleeve\LaravelStapler\Providers\L5ServiceProvider::class,
 
 Optionally add an alias for the `\Image` and `\Attachment` classes in `config/app.php`
 
-    'Image' => BenAllfree\LaravelStaplerImages\Image::class
-    'Attachment' => BenAllfree\LaravelStaplerImages\Attachment::class
+    'Image' => BenAllfree\LaravelStaplerImages\Image::class,
+    'Attachment' => BenAllfree\LaravelStaplerImages\Attachment::class,
 
 Publish the config
 
@@ -57,17 +57,19 @@ Now, add it to the User table
     
     class User
     {
-      trait AttachmentTrait;
+      use AttachmentTrait;
     }
 
 Great. Now we can rock and roll. Saving will generate and save all the images on the spot.
 
     // Create an image
     $url = "http://www.gravatar.com/avatar/71137e6e1c94b72f162da3262b700017.png";
-    $user->avatar = Image::from_url($url);
+    $user->avatar_image_path = $url;
     $user->save();
 
-Next, we can recall an image URL. The MIME type is always `image/jpg` for these.
+The `$url` can be a file path too.
+
+Next, we can recall a processed image URL. The MIME type is always `image/jpg` for these.
 
     // Use an image
     echo $user->avatar->url('thumb');

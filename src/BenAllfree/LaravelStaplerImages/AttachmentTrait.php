@@ -50,7 +50,7 @@ trait AttachmentTrait
           $i = Attachment::from_url($value);
           break;
         default:
-          throw new Exception("Unrecognized attachment type {$type_name}");
+          throw new \Exception("Unrecognized attachment type {$field_type}");
       }
       $field_name = "{$field_prefix}_{$field_type}_id";
       return parent::setAttribute($field_name, $i->id);
@@ -70,22 +70,24 @@ trait AttachmentTrait
   
   public function mutateAttribute($key, $value)
   {
-    preg_match('/(.*)_(?:image|file)$/', $key, $matches);
+    preg_match('/(.*)_(image|file)$/', $key, $matches);
     if(count($matches)>0)
     {
-      list($match_data, $field_type) = $matches;
-      $field_name = "{$field_type}_id";
+      list($match_data, $field_name_prefix, $field_type) = $matches;
+      $field_name = "{$field_name_prefix}_{$field_type}_id";
       switch($field_type)
       {
         case 'image':
-          return $this->belongsTo(Image::class, $field_name);
+          $obj = Image::find($this->$field_name);
           break;
         case 'file':
-          return $this->belongsTo(Attachment::class, $field_name);
+          $obj = Attachment::find($this->$field_name);
           break;
         default:
-          throw new Exception("Unrecognized attachment type {$field_type}");
+          throw new \Exception("Unrecognized attachment type {$field_type}");
       }
+      if(!$obj) return null;
+      return $obj->att;
     }
     return parent::mutateAttribute($key, $value);
   }  
