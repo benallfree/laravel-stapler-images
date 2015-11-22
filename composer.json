@@ -16,8 +16,8 @@
         "codesleeve/laravel-stapler": "1.0.*"
     },
     "autoload": {
-        "psr-0": {
-            "BenAllfree\\LaravelStaplerImages\\": "src/"
+        "psr-4": {
+            "BenAllfree\\": "src/"
         }
     },
     "minimum-stability": "stable"
