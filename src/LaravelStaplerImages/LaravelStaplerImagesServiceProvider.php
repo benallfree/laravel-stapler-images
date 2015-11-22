@@ -34,7 +34,7 @@ class LaravelStaplerImagesServiceProvider extends ServiceProvider {
 	public function register()
 	{
     $this->mergeConfigFrom(
-        __DIR__.'/config/images.php', 'laravel-stapler.images'
+        __DIR__.'/../../publish/config/images.php', 'laravel-stapler.images'
     );
     
 		$this->app->bind('image.reprocess', function($app)
