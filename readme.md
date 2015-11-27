@@ -216,7 +216,7 @@ If you are on shared hosting, you may find that `open_basedir` is set and `curl`
 
 ### rename bug
 
-`codesleeve/stapler` renames files as part of processing URL downlaods and using temporary files. If your temporary files are stored on a different volume, there is a [known PHP issue](https://bugs.php.net/bug.php?id=50676) that will cause a Laravel exception. To fix it, `@rename` should be used:
+`codesleeve/stapler` renames files as part of processing URL downloads and using temporary files. If your temporary files are stored on a different volume, there is a [known PHP issue](https://bugs.php.net/bug.php?id=50676) that will cause a Laravel exception. To fix it, `@rename` should be used:
 
     git apply vendor/benallfree/laravel-stapler-images/codesleeve-stapler-rename_bugfix.patch
 
