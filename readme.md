@@ -167,9 +167,8 @@ Then, in `config/administrator/<your model>.php`, configure your model file as f
        */
       'columns' => array(
         'id',
-        'avatar' => array(
+        'avatar_id' => array(
           'title' => 'Avatar',
-          'select' => 'avatar_id',
           'output'=>function($id) {
             if(!$id) return '';
             $i = \Image::find($id);
