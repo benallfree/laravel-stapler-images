@@ -24,6 +24,7 @@ trait AttachmentTrait
       {
         $try = [
           $value,
+          config('laravel-stapler.images.upload_path')."/{$value}",
           config('laravel-stapler.images.storage_path')."/{$value}",
           config('laravel-stapler.images.admin_path')."/{$value}",
           storage_path($value),
