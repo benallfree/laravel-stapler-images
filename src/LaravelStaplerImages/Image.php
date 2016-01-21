@@ -37,7 +37,7 @@ class Image  extends \Eloquent implements StaplerableInterface
   
   function url($size='thumb')
   {
-    return $this->image->url($size);
+    return $this->att->url($size);
   }
   
   public function should_reprocess()
