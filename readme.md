@@ -181,7 +181,7 @@ Then, in `config/administrator/<your model>.php`, configure your model file as f
        * The editable fields
        */
       'edit_fields' => array(
-        'avatar_image_laravel_administrator_fname'=>[
+        'avatar_image_path'=>[
           'title'=>'Avatar',
           'type'=>'image',
           'location'=>config('laravel-stapler.images.admin_path').'/',
