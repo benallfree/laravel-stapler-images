@@ -22,8 +22,6 @@ class LaravelStaplerImagesServiceProvider extends ServiceProvider {
       __DIR__.'/../../publish/config/images.php' => config_path('laravel-stapler/images.php'),
       __DIR__.'/../../publish/migrations' => base_path('database/migrations'),
     ]);
-    
-		//$this->package('benallfree/laravel-stapler-images');
 	}
 
 	/**
