@@ -37,4 +37,9 @@ class Attachment  extends \Eloquent implements StaplerableInterface
   {
     return $this->att->url();
   }
+  
+  function path()
+  {
+    return $this->att->path();
+  }  
 }

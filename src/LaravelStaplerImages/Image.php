@@ -39,6 +39,11 @@ class Image  extends \Eloquent implements StaplerableInterface
   {
     return $this->att->url($size);
   }
+
+  function path($size='')
+  {
+    return $this->att->path($size);
+  }
   
   public function should_reprocess()
   {

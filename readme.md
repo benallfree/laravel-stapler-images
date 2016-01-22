@@ -89,12 +89,12 @@ The following sizes exist by default:
 Given a database field `<name>_file_id`
 
 `<name>_file` - A getter that returns an `Attachment` object for the given underlying ID
-`<name>_file_path()` - A setter mutator that accepts a file path or URL and creates an `Attachment` object from it. If it can't find the file with the path specified, it will look in the `storage_path` config setting, then in `storage_path()`, then in `root_path()`.
+`<name>_file_path()` - A setter mutator that accepts a file path or URL and creates an `Attachment` object from it. If it can't find the file with the path specified, it will look in the `la_path` config setting, then in `la_path()`, then in `root_path()`.
   
 Likewise, a database field `<name>_image_id` will do the same thing for `Image`, except it will add image processing when the objects are created.
 
 `<name>_image` - A getter that returns an `Image` object for the given underlying ID
-`<name>_image_path()` - A setter mutator that accepts a file path or URL and creates an `Attachment` object from it. If it can't find the file with the path specified, it will look in the `storage_path` config setting, then in `storage_path()`, then in `root_path()`.
+`<name>_image_path()` - A setter mutator that accepts a file path or URL and creates an `Attachment` object from it. If it can't find the file with the path specified, it will look in the `la_path` config setting, then in `la_path()`, then in `root_path()`.
   
 `Image` is NOT a subclass of `Attachment`, so these should not be used interchangeably. 
   
@@ -148,9 +148,15 @@ Then, create a route like this and add whatever security you need:
 
 Do you love [Laravel Administrator](https://github.com/FrozenNode/Laravel-Administrator) as much as I do? Sweet. Here's how you do it.
 
-In `config/laravel-stapler/images.php`, there is an `admin_path` that should be configured. You might like the default, and if you do, then you need to make sure the directory exists (someone fix that please).
+First, familiarize yourself with the [`location`](http://administrator.frozennode.com/docs/field-type-image) attribute of upload fields in Laravel Administrator.
 
-Then, in `config/administrator/<your model>.php`, configure your model file as follows:
+### Step 1: Choose ONE location where Laravel Administrator will upload your files.
+
+In `config/laravel-stapler/images.php`, there is an `la_path` that can be configured. The default is fine, but if you want to change it you may. Use the same location for ALL models in Laravel Administrator. Laravel Stapler Images will look in this config path for any uploads being saved.
+
+### Step 2: Configure your Laravel Administrator model, being careful to use the `config()` path you chose in Step 1.
+
+Configure `config/administrator/<your model>.php` as follows:
   
     <?php
     
@@ -184,12 +190,32 @@ Then, in `config/administrator/<your model>.php`, configure your model file as f
         'avatar_image_path'=>[
           'title'=>'Avatar',
           'type'=>'image',
-          'location'=>config('laravel-stapler.images.admin_path').'/',
+          'location'=>config('laravel-stapler.images.la_path').'/',
         ]
         
       ),
       
     );
+
+### Step 3: Add extra JSON attributes to your Eloquent model via `$appends`.
+
+Recall our User model above contained an `avatar_image_id` field, and that we can use `$user->avatar_image` to access it.
+
+    class User
+    {
+      use AttachmentTrait;
+    }
+
+To make sure Laravel Administrator sees it, we must modify the model just a bit:
+
+    class User
+    {
+      use AttachmentTrait;
+      
+      protected $appends = ['avatar_image_la'];
+    }
+
+The `_la` suffix indicates that this is a Laravel Administrator file attachment field. 
 
 That's it! Now you have images from Laravel Administrator!
 

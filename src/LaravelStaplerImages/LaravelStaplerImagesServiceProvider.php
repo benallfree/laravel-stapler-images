@@ -22,6 +22,11 @@ class LaravelStaplerImagesServiceProvider extends ServiceProvider {
       __DIR__.'/../../publish/config/images.php' => config_path('laravel-stapler/images.php'),
       __DIR__.'/../../publish/migrations' => base_path('database/migrations'),
     ]);
+    $path = config('laravel-stapler.images.la_path');
+    if(!file_exists($path))
+    {
+      mkdir($path, 0755, true);
+    }
 	}
 
 	/**

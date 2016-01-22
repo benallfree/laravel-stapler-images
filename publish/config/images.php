@@ -24,6 +24,6 @@ foreach($sizes as $k=>$v)
 
 return [
   'table_name'=>'attachments',
-  'storage_path'=>storage_path('admin/att'),
+  'la_path'=>storage_path('admin/uploads'),
   'sizes'=>$sizes,
 ];
