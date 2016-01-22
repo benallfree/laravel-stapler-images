@@ -19,7 +19,8 @@ trait AttachmentTrait
     preg_match('/(.*)_(image|file)(_la)?$/', $key, $matches);
     if(count($matches)>0)
     {
-      list($match_data, $field_prefix, $field_type, $la_mode) = $matches;
+      list($match_data, $field_prefix, $field_type) = $matches;
+      $la_mode = count($matches)==4;
       $field_name = "{$field_prefix}_{$field_type}_id";
       if(!$value)
       {
@@ -82,7 +83,8 @@ trait AttachmentTrait
     preg_match('/(.*)_(image|file)(_la)?$/', $key, $matches);
     if(count($matches)>0)
     {
-      list($match_data, $field_name_prefix, $field_type, $la_mode) = $matches;
+      list($match_data, $field_name_prefix, $field_type) = $matches;
+      $la_mode = count($matches)==4;
       $field_name = "{$field_name_prefix}_{$field_type}_id";
       if(!$this->$field_name) return null;
       switch($field_type)
