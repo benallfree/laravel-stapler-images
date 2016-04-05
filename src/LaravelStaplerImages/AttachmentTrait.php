@@ -44,7 +44,12 @@ trait AttachmentTrait
         }
         if($value != $file_path)
         {
-          throw new \Exception("File path {$value} not found.");
+          if($la_mode)
+          {
+            return $this->getAttribute($field_name);
+          } else {
+            throw new Exception("File path to save {$value} not found.");
+          }
         }
       }
       switch($field_type)
@@ -101,6 +106,13 @@ trait AttachmentTrait
       if(!$obj) return null;
       if($la_mode)
       {
+        // Recover image if missing from Laravel Admin
+        $la_fpath = config('laravel-stapler.images.la_path')."/{$obj->att_file_name}";
+        if(!file_exists($la_fpath))
+        {
+          copy($obj->path('admin'), $la_fpath);
+        }
+        
         return $obj->att_file_name;
       }
       return $obj->att;
