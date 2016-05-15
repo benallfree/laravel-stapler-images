@@ -4,7 +4,7 @@ namespace BenAllfree\LaravelStaplerImages;
 use Codesleeve\Stapler\ORM\StaplerableInterface;
 use Codesleeve\Stapler\ORM\EloquentTrait;
 
-class Attachment  extends \Eloquent implements StaplerableInterface 
+class Attachment  extends Model implements StaplerableInterface
 {
   use EloquentTrait;
 
@@ -21,25 +21,25 @@ class Attachment  extends \Eloquent implements StaplerableInterface
     $i->save();
     return $i;
   }
-  
+
   function getTable()
   {
     return config('laravel-stapler.images.table_name');
   }
-  
+
   public function __construct(array $attributes = array()) {
     $this->hasAttachedFile('att');
 
     parent::__construct($attributes);
   }
-  
+
   function url()
   {
     return $this->att->url();
   }
-  
+
   function path()
   {
     return $this->att->path();
-  }  
+  }
 }
