@@ -48,7 +48,7 @@ trait AttachmentTrait
           {
             return $this->getAttribute($field_name);
           } else {
-            throw new Exception("File path to save {$value} not found.");
+            throw new \Exception("File path to save {$value} not found.");
           }
         }
       }
@@ -77,7 +77,6 @@ trait AttachmentTrait
     preg_match('/(.*)_(?:image|file)(?:_la)?$/', $key, $matches);
     if(count($matches)>0)
     {
-      \Log::debug($key);
       return true;
     }
     return parent::hasGetMutator($key);

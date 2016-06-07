@@ -73,7 +73,7 @@ The `$url` can be a file path too.
 Next, we can recall a processed image URL. The MIME type is always `image/jpg` for these.
 
     // Use an image
-    echo $user->avatar->url('thumb');
+    echo $user->avatar_image->url('thumb');
 
 The following sizes exist by default:
 
@@ -83,6 +83,30 @@ The following sizes exist by default:
     'thumb' => '180x180#',
     'admin' => '100x100#',
     'tiny' => '75x75#',
+
+## Forms and Input
+
+Given a field named `avatar_image` like above...
+
+### In the view
+
+```
+{!! Form::open(['method'=>'post', 'files'=>true]) !!}
+{!! Form::file('avatar_image') !!}
+{!! Form::submit('Update') !!}
+{!! Form ::close() !!}
+```
+
+### In the controller
+
+```
+function do_postback(Request $r)
+{
+  $u = Auth::user();
+  $u->update($r->input());
+  $u->update($r->files()); // This is the important one
+}
+```
 
 ## Magic Getters and Setters
 
