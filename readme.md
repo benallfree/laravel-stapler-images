@@ -29,9 +29,9 @@ Publish the config
 
     php artisan vendor:publish
 
-Take a look at the config files in `config/laravel-stapler`. If you're not familiar with the config files, see the [basic Stapler config docs](https://github.com/CodeSleeve/stapler/blob/master/docs/configuration.md). We add `images.php` where you can control settings for this package. In particular, if you want to adjust the name of the table and the sizes of images created, you can do it here.
+Take a look at the config files in `config/laravel-stapler`. If you're not familiar with the config files, see the [basic Stapler config docs](https://github.com/CodeSleeve/stapler/blob/master/docs/configuration.md). I add `images.php` where you can control settings for this package. In particular, if you want to adjust the name of the table and the sizes of images created, you can do it here.
 
-We like this setting for `config/laravel-stapler/filesystem.php`
+I like this setting for `config/laravel-stapler/filesystem.php`
 
     'url' => '/i/:id_partition/:style/:filename',
 
@@ -49,7 +49,7 @@ First, create a migration. In this case, let's do a simple `belongsTo` relations
       $table->integer('avatar_image_id');
     });
 
-We named it `avatar_image_id` because we want the field to be treated as an `BenAllfree\LaravelStaplerImages\Image` object so image processing happens. This gives us extra features like processing various image sizes. If we didn't need that, we could have named it `avatar_file_id` and it would be a `BenAllfree\LaravelStaplerImages\Attachment` instead.
+I named it `avatar_image_id` because we want the field to be treated as an `BenAllfree\LaravelStaplerImages\Image` object so image processing happens. This gives us extra features like processing various image sizes. If we didn't need that, we could have named it `avatar_file_id` and it would be a `BenAllfree\LaravelStaplerImages\Attachment` instead.
 
 Now, add it to the User table
 
@@ -148,11 +148,11 @@ Then, create a route like this and add whatever security you need:
 
 Do you love [Laravel Administrator](https://github.com/FrozenNode/Laravel-Administrator) as much as I do? Sweet. Here's how you do it.
 
-First, familiarize yourself with the [`location`](http://administrator.frozennode.com/docs/field-type-image) attribute of upload fields in Laravel Administrator.
+First, familiarize yourself with the `[location](http://administrator.frozennode.com/docs/field-type-image)` attribute of upload fields in Laravel Administrator.
 
 ### Step 1: Choose ONE location where Laravel Administrator will upload your files.
 
-In `config/laravel-stapler/images.php`, there is an `la_path` that can be configured. The default is fine, but if you want to change it you may. Use the same location for ALL models in Laravel Administrator. Laravel Stapler Images will look in this config path for any uploads being saved.
+In `config/laravel-stapler/images.php`, there is an `la_path` that can be configured. The default is fine, but if you want to change it you may. Use the same location for ALL models in Laravel Administrator. Laravel Stapler Images will look in this config path for any uploads being saved. I suggest adding a `.gitkeep` to the path.
 
 ### Step 2: Configure your Laravel Administrator model, being careful to use the `config()` path you chose in Step 1.
 
@@ -173,7 +173,7 @@ Configure `config/administrator/<your model>.php` as follows:
        */
       'columns' => array(
         'id',
-        'avatar_id' => array(
+        'avatar_image_id' => array(
           'title' => 'Avatar',
           'output'=>function($id) {
             if(!$id) return '';
@@ -187,7 +187,7 @@ Configure `config/administrator/<your model>.php` as follows:
        * The editable fields
        */
       'edit_fields' => array(
-        'avatar_image_path'=>[
+        'avatar_image_la'=>[
           'title'=>'Avatar',
           'type'=>'image',
           'location'=>config('laravel-stapler.images.la_path').'/',
@@ -221,7 +221,7 @@ That's it! Now you have images from Laravel Administrator!
 
 ## Workarounds and bugfixes
 
-The core `codesleeve/stapler` package has a couple bugs that may be important to you. We have included patch files to fix the bugs and will keep these up to date with the required versions of `stapler`.
+The core `codesleeve/stapler` package has a couple bugs that may be important to you. I have included patch files to fix the bugs and will keep these up to date with the required versions of `stapler`.
 
 After you run a `composer update`, you'll need to re-apply these patches. Here is a shell script to help out. I like this better than composer's hooks because sometimes `artisan` won't run if ServiceProvider dependencies are missing.
 
