@@ -39,7 +39,7 @@ Don't forget to migrate:
 
     php artisan migrate
 
-## Usage
+## Basic Usage
 
 Super easy. Let's add an avatar to our `User` model.
 
@@ -168,6 +168,13 @@ Then, create a route like this and add whatever security you need:
       return $response;
     });
 
+## Advanced Usage (Working directly with attachments)
+
+If you have a pivot table or some other need to work directly with attachments:
+
+    $image = Image::from_url($url);
+    $att = Attachment::from_url($url);
+
 ## Integrating with Laravel Administrator
 
 Do you love [Laravel Administrator](https://github.com/FrozenNode/Laravel-Administrator) as much as I do? Sweet. Here's how you do it.
@@ -245,29 +252,30 @@ That's it! Now you have images from Laravel Administrator!
 
 ## Workarounds and bugfixes
 
-The core `codesleeve/stapler` package has a couple bugs that may be important to you. I have included patch files to fix the bugs and will keep these up to date with the required versions of `stapler`.
+The core `codesleeve/stapler` package has a couple bugs that may be important to you. To use my forked version of Stapler with the bugs fixed, do the following:
 
-After you run a `composer update`, you'll need to re-apply these patches. Here is a shell script to help out. I like this better than composer's hooks because sometimes `artisan` won't run if ServiceProvider dependencies are missing.
+In your composer.json:
 
-    #!/bin/bash
-    rm -rf vendor/codesleeve/stapler
-    composer $1
-    git apply vendor/benallfree/laravel-stapler-images/codesleeve-stapler-rename_bugfix.patch
-    git apply vendor/benallfree/laravel-stapler-images/codesleeve-stapler-curl-open-basedir-fix.patch
-    php artisan clear-compiled
-    php artisan optimize
+    "repositories": [
+      {
+          "type": "vcs",
+          "url": "git@github.com:benallfree/stapler.git"
+      }
+    "require": {
+        "codesleeve/stapler": "dev-master as 1.2.0",
+    },
+
+### Hashtag and long URL name fixes
+
+Two problems:
+
+1. If a URL containing a # (hash) is fetched, it will fail to use the proper file extension, this creating MIME type problems.
+2. If a URL is too long, it will faile to write to the file system. I fixed this by using shorter names.
 
 ### curl/open_basedir bug
 
 If you are on shared hosting, you may find that `open_basedir` is set and `curl` will fail to fetch URLs. To fix that, we have included a patch file with this package.
 
-    git apply vendor/benallfree/laravel-stapler-images/codesleeve-stapler-curl-open-basedir-fix.patch
-
 ### rename bug
 
-`codesleeve/stapler` renames files as part of processing URL downloads and using temporary files. If your temporary files are stored on a different volume, there is a [known PHP issue](https://bugs.php.net/bug.php?id=50676) that will cause a Laravel exception. To fix it, `@rename` should be used:
-
-    git apply vendor/benallfree/laravel-stapler-images/codesleeve-stapler-rename_bugfix.patch
-
-
- 
+`codesleeve/stapler` renames files as part of processing URL downloads and using temporary files. If your temporary files are stored on a different volume, there is a [known PHP issue](https://bugs.php.net/bug.php?id=50676) that will cause a Laravel exception. To fix it, `@rename` should be used.
