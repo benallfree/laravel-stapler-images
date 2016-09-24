@@ -46,10 +46,10 @@ class ImageReprocess extends Command {
     foreach($images as $i)
     {
       if($this->option('force')==null && !$i->should_reprocess()) continue;
-      echo("Processing {$i->image->url()}\n");
+      echo("Processing {$i->att->url()}\n");
       try
       {
-        $i->image->reprocess();
+        $i->att->reprocess();
         $i->save();
       } catch (FileNotFoundException $e)
       {
