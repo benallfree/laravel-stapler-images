@@ -4,7 +4,7 @@ namespace BenAllfree\LaravelStaplerImages;
 use Codesleeve\Stapler\ORM\StaplerableInterface;
 use Codesleeve\Stapler\ORM\EloquentTrait;
 
-class Image  extends \Eloquent implements StaplerableInterface 
+class Image  extends Model implements StaplerableInterface
 {
   use EloquentTrait;
 
@@ -21,12 +21,12 @@ class Image  extends \Eloquent implements StaplerableInterface
     $i->save();
     return $i;
   }
-  
+
   function getTable()
   {
     return config('laravel-stapler.images.table_name');
   }
-  
+
   public function __construct(array $attributes = array()) {
     $this->hasAttachedFile('att', [
         'styles' => self::styles()
@@ -34,7 +34,7 @@ class Image  extends \Eloquent implements StaplerableInterface
 
     parent::__construct($attributes);
   }
-  
+
   function url($size='thumb')
   {
     return $this->att->url($size);
@@ -44,17 +44,17 @@ class Image  extends \Eloquent implements StaplerableInterface
   {
     return $this->att->path($size);
   }
-  
+
   public function should_reprocess()
   {
     return $this->sizes_md5 != self::style_md5();
   }
-  
+
   public static function style_md5()
   {
     return md5(json_encode(self::styles()));
   }
-  
+
   public static function styles()
   {
     $styles = config('laravel-stapler.images.sizes');
