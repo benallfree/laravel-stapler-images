@@ -122,7 +122,7 @@ trait AttachmentTrait
     }
     preg_match('/(.*)(Image|File)$/', $key, $matches);
     if(count($matches)==0) return parent::mutateAttribute($key, $value);
-    return $this->getRelationValue($key);;
+    return $this->getRelationValue($key);
   }
   
   public function __call($name, $args)
@@ -142,5 +142,16 @@ trait AttachmentTrait
       default:
         throw new \Exception("Unrecognized attachment type {$field_type}");
     }
+  }
+  
+  public function getRelationValue($key)
+  {
+      if ($this->relationLoaded($key)) {
+        return $this->relations[$key];
+      }
+
+      if (method_exists($this, $key) || preg_match('/(.*)(Image|File)$/', $key)) {
+        return $this->getRelationshipFromMethod($key);
+      }
   }
 }
