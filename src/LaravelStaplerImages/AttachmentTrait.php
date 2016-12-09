@@ -1,7 +1,6 @@
 <?php
 
 namespace BenAllfree\LaravelStaplerImages;
-
 trait AttachmentTrait
 {
   public function hasSetMutator($key)
@@ -79,6 +78,11 @@ trait AttachmentTrait
     {
       return true;
     }
+    preg_match('/(.*)(?:Image|File)$/', $key, $matches);
+    if(count($matches)>0)
+    {
+      return true;
+    }
     return parent::hasGetMutator($key);
   }
   
@@ -116,6 +120,27 @@ trait AttachmentTrait
       }
       return $obj->att;
     }
-    return parent::mutateAttribute($key, $value);
-  }  
+    preg_match('/(.*)(Image|File)$/', $key, $matches);
+    if(count($matches)==0) return parent::mutateAttribute($key, $value);
+    return $this->getRelationValue($key);;
+  }
+  
+  public function __call($name, $args)
+  {
+    preg_match('/(.*)(Image|File)$/', $name, $matches);
+    if(count($matches)==0) return parent::__call($name, $args);
+    list($match_data, $field_name_prefix, $field_type) = $matches;
+    $field_name_prefix = snake_case($field_name_prefix);
+    $field_type = strtolower($field_type);
+    $field_name = "{$field_name_prefix}_{$field_type}_id";
+    switch($field_type)
+    {
+      case 'image':
+        return $this->belongsTo(Image::class, $field_name);
+      case 'file':
+        return $this->belongsTo(Attachment::class, $field_name);
+      default:
+        throw new \Exception("Unrecognized attachment type {$field_type}");
+    }
+  }
 }
