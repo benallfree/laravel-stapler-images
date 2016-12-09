@@ -42,20 +42,21 @@ class ImageReprocess extends Command {
    */
   public function fire()
   {
-    $images = Image::all();
-    foreach($images as $i)
-    {
-      if($this->option('force')==null && !$i->should_reprocess()) continue;
-      echo("Processing {$i->image->url()}\n");
-      try
+    Image::query()->chunk(50, function($images) {
+      foreach($images as $i)
       {
-        $i->image->reprocess();
-        $i->save();
-      } catch (FileNotFoundException $e)
-      {
-        echo("\tFile not found.");
+        if($this->option('force')==null && !$i->should_reprocess()) continue;
+        echo("Processing {$i->url()}\n");
+        try
+        {
+          $i->reprocess();
+          $i->save();
+        } catch (FileNotFoundException $e)
+        {
+          echo("\tFile not found.");
+        }
       }
-    }
+    });
   }
   
 

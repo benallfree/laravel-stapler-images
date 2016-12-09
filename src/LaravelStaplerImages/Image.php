@@ -64,6 +64,11 @@ class Image  extends \Eloquent implements StaplerableInterface
     }
     return $styles;
   }
+  
+  function reprocess()
+  {
+    return $this->att->reprocess();
+  }
 }
 
 Image::saving(function($obj) {
