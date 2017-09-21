@@ -65,9 +65,15 @@ class Image  extends \Eloquent implements StaplerableInterface
     return $styles;
   }
   
-  function reprocess()
+  function reprocess($should_check_first=false)
   {
-    return $this->att->reprocess();
+    if($should_check_first)
+    {
+      if(!$this->should_reprocess()) return;
+    }
+    $ret = $this->att->reprocess();
+    $this->save();
+    return $ret;
   }
 }
 

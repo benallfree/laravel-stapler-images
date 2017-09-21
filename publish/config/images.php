@@ -26,4 +26,5 @@ return [
   'table_name'=>'attachments',
   'la_path'=>storage_path('admin/uploads'),
   'sizes'=>$sizes,
+  'use_queue'=>false,
 ];

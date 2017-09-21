@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Carbon\Carbon;
 use BenAllfree\LaravelStaplerImages\Image;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+use BenAllfree\LaravelStaplerImages\Jobs\ReprocessImageJob;
 
 class ImageReprocess extends Command {
 
@@ -49,8 +50,12 @@ class ImageReprocess extends Command {
         echo("Processing {$i->url()}\n");
         try
         {
-          $i->reprocess();
-          $i->save();
+          if(config('laravel-stapler.images.use_queue'))
+          {
+            ReprocessImageJob::dispatch($i);
+          } else {
+            $i->reprocess();
+          }
         } catch (FileNotFoundException $e)
         {
           echo("\tFile not found.");
