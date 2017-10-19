@@ -4,7 +4,7 @@ namespace BenAllfree\LaravelStaplerImages;
 use Codesleeve\Stapler\ORM\StaplerableInterface;
 use Codesleeve\Stapler\ORM\EloquentTrait;
 
-class Image  extends \Eloquent implements StaplerableInterface 
+class Image  extends \Illuminate\Database\Eloquent\Model implements StaplerableInterface 
 {
   use EloquentTrait;
 

@@ -118,7 +118,7 @@ trait AttachmentTrait
         
         return $obj->att_file_name;
       }
-      return $obj->att;
+      return $obj;
     }
     preg_match('/(.*)(Image|File)$/', $key, $matches);
     if(count($matches)==0) return parent::mutateAttribute($key, $value);
