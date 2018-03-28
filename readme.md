@@ -5,7 +5,7 @@ This Laravel 5 package builds upon [codesleeve/laravel-stapler](https://github.c
 There are several benefits to storing your attachments in a single table:
 
 * Easier mainteannce - no additional migrations needed when new attachments are added
-* Utilities and Laravel commands to handle attachments do not need to know specific column mames
+* Utilities and Laravel commands to handle attachments do not need to know specific column names
 * Normalized data is more organized and searchable
 * Avoids duplication of images
 
